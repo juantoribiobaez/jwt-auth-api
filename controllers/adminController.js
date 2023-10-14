@@ -1,4 +1,6 @@
 const AdminModel = require('../models/adminModel');
+const UserModel = require('../models/userModel');
+
 /**
  * Obtiene y devuelve todos los usuarios.
  *
@@ -54,19 +56,12 @@ exports.updateUserRole = async (req, res) => {
  */
 exports.updateUserPassword = async (req, res) => {
     try {
-        const userId = req.userId; // Asumiendo que tienes el ID del usuario en el token
-        const { currentPassword, newPassword } = req.body;
+        const userId = req.params.id; // Asumiendo que estás pasando el ID del usuario en la URL
+        const { newPassword, confirmPassword } = req.body;
 
-        // Obtener el usuario por ID
-        const user = await UserModel.getUserById(userId);
-        if (!user) {
-            return res.status(404).json({ error: 'Usuario no encontrado' });
-        }
-
-        // Verificar la contraseña actual
-        const isMatch = await bcrypt.compare(currentPassword, user.password);
-        if (!isMatch) {
-            return res.status(401).json({ error: 'Contraseña actual incorrecta' });
+        // Validar que la nueva contraseña y la confirmación coincidan
+        if (newPassword !== confirmPassword) {
+            return res.status(400).json({ error: 'La nueva contraseña y la confirmación no coinciden' });
         }
 
         // Hashing de la nueva contraseña
@@ -103,5 +98,31 @@ exports.updateUsername = async (req, res) => {
         res.status(200).json(updatedUser);
     } catch (error) {
         res.status(500).json({ error: 'Error al actualizar el nombre de usuario', detalles: error.message });
+    }
+};
+
+/**
+ * Elimina un usuario específico por ID.
+ *
+ * @param {Object} req - Objeto de solicitud de Express.
+ * @param {Object} res - Objeto de respuesta de Express.
+ * @returns {Object} - Mensaje de éxito o error.
+ */
+exports.deleteUser = async (req, res) => {
+    try {
+        const userId = req.params.id;
+
+        // Verificar si el usuario existe
+        const user = await UserModel.getUserById(userId);
+        if (!user) {
+            return res.status(404).json({ error: 'Usuario no encontrado' });
+        }
+
+        // Eliminar el usuario de la base de datos
+        await AdminModel.deleteUser(userId);
+        
+        res.status(200).json({ message: 'Usuario eliminado con éxito' });
+    } catch (error) {
+        res.status(500).json({ error: 'Error al eliminar el usuario', detalles: error.message });
     }
 };

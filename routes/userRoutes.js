@@ -17,5 +17,6 @@ router.get('/admin/users', verifyToken, authorization('admin'), adminController.
 router.put('/users/:id/username', verifyToken, authorization('admin'), adminController.updateUsername); // Update username
 router.put('/users/password', verifyToken, authorization('admin'), adminController.updateUserPassword); // Update password
 router.put('/admin/users/:id/role', verifyToken, authorization('admin'), adminController.updateUserRole); // Change role user
+router.delete('/admin/users/:id', verifyToken, authorization('admin'), adminController.deleteUser); // Delete a User
 
 module.exports = router;

@@ -1,106 +1,173 @@
+```markdown
+# API de Usuarios y Administradores
 
-# JSON Web Token Auth API
+![Estado del Proyecto](https://img.shields.io/badge/Estado-En%20Desarrollo-yellow)
 
-Breve descripción de lo que hace tu API.
+Esta API te permite gestionar usuarios y administradores, permitiendo la autenticación, registro y gestión de usuarios. Proporciona una serie de endpoints que puedes utilizar para interactuar con la API de manera efectiva.
 
-## 🚀 Comenzando
+## Configuración Inicial
 
-Estas instrucciones te proporcionarán una copia del proyecto en funcionamiento en tu máquina local para propósitos de desarrollo y pruebas.
+Sigue estos pasos para configurar y ejecutar la API en tu entorno local:
 
-### 📋 Pre-requisitos
+1. **Clonar el Repositorio:** Clona este repositorio en tu máquina local utilizando el siguiente comando:
 
-- Node.js v14.x.x o superior
-- PostgreSQL v12.x.x o superior
-- npm v6.x.x o superior
+   ```bash
+   git clone https://github.com/tuusuario/turepositorio.git
+   ```
 
-### 🔧 Instalación
+2. **Instalar Dependencias:** Navega al directorio del proyecto y ejecuta el siguiente comando para instalar las dependencias necesarias:
 
-1. Clona el repositorio a tu máquina local.
-```bash
-git clone https://github.com/juantoribiobaez/jwt-auth-api.git
+   ```bash
+   npm install
+   ```
+
+3. **Configurar Variables de Entorno:** Crea un archivo `.env` en el directorio raíz del proyecto y configura las siguientes variables de entorno:
+
+   ```env
+   SECRET_KEY=
+   DB_USER=
+   DB_HOST=
+   DB_NAME=
+   DB_PASSWORD=
+   DB_PORT=
+   APP_PORT=
+   APP_IP_ADDRESS=
+   ```
+
+4. **Iniciar el Servidor:** Ejecuta el servidor utilizando el siguiente comando:
+
+   ```bash
+   npm start
+   ```
+
+## Endpoints
+
+### Usuarios
+
+1. **Registro de Usuario**
+
+   - **Endpoint:** `/api/register`
+   - **Método:** POST
+   - **Body:**
+     ```json
+     {
+         "username": "nombre_de_usuario",
+         "password": "contraseña_del_usuario"
+     }
+     ```
+   - **Respuesta:** Retorna el usuario registrado.
+
+2. **Autenticación de Usuario**
+
+   - **Endpoint:** `/api/login`
+   - **Método:** POST
+   - **Body:**
+     ```json
+     {
+         "username": "nombre_de_usuario",
+         "password": "contraseña_del_usuario"
+     }
+     ```
+   - **Respuesta:** Si la autenticación es exitosa, retorna un token JWT.
+
+3. **Información del Usuario Autenticado**
+
+   - **Endpoint:** `/api/logincheck`
+   - **Método:** GET
+   - **Headers:** `Authorization: Bearer TU_TOKEN`
+   - **Respuesta:** Retorna la información del usuario autenticado.
+
+4. **Validar Conexión a la Base de Datos**
+
+   - **Endpoint:** `/api/checkhealth`
+   - **Método:** GET
+   - **Respuesta:** Indica si la conexión a la base de datos es exitosa o no.
+
+### Administradores
+
+1. **Obtener todos los Usuarios**
+
+   - **Endpoint:** `/api/admin/users`
+   - **Método:** GET
+   - **Headers:** `Authorization: Bearer TU_TOKEN_ADMIN`
+   - **Respuesta:** Retorna una lista de todos los usuarios.
+
+2. **Actualizar el Nombre de Usuario de un Usuario Específico**
+
+   - **Endpoint:** `/api/users/:id/username`
+   - **Método:** PUT
+   - **Headers:** `Authorization: Bearer TU_TOKEN_ADMIN`
+   - **Body:**
+     ```json
+     {
+         "username": "nuevo_nombre_de_usuario"
+     }
+     ```
+   - **Respuesta:** Retorna el usuario con el nombre actualizado.
+
+3. **Actualizar la Contraseña de un Usuario Específico**
+
+   - **Endpoint:** `/api/users/:id/password`
+   - **Método:** PUT
+   - **Headers:** `Authorization: Bearer TU_TOKEN_ADMIN`
+   - **Body:**
+     ```json
+     {
+         "newPassword": "nueva_contraseña",
+         "confirmPassword": "confirmar_nueva_contraseña"
+     }
+     ```
+   - **Respuesta:** Mensaje indicando que la contraseña ha sido actualizada con éxito.
+
+4. **Actualizar el Rol de un Usuario Específico**
+
+   - **Endpoint:** `/api/admin/users/:id/role`
+   - **Método:** PUT
+   - **Headers:** `Authorization: Bearer TU_TOKEN_ADMIN`
+   - **Body:**
+     ```json
+     {
+         "role": "nuevo_rol"
+     }
+     ```
+   - **Respuesta:** Retorna el usuario con el rol actualizado.
+
+5. **Eliminar un Usuario Específico**
+
+   - **Endpoint:** `/api/admin/users/:id`
+   - **Método:** DELETE
+   - **Headers:** `Authorization: Bearer TU_TOKEN_ADMIN`
+   - **Respuesta:** Mensaje indicando que el usuario ha sido eliminado con éxito.
+
+## Ejemplos de Consultas con cURL
+
+Aquí tienes ejemplos de cómo realizar algunas de las operaciones utilizando cURL:
+
+1. **Registro de Usuario**
+
+   ```bash
+   curl -X POST -H "Content-Type: application/json" -d '{"username": "juan", "password": "123456"}' http://localhost:8001/api/users/register
+   ```
+
+2. **Autenticación de Usuario**
+
+   ```bash
+   curl -X POST -H "Content-Type: application/json" -d '{"username": "juan", "password": "123456"}' http://localhost:8001/api/users/login
+   ```
+
+3. **Obtener Información del Usuario Autenticado**
+
+   ```bash
+   curl -X GET -H "Authorization: Bearer TU_TOKEN" http://localhost:8001/api/users/logincheck
+   ```
+
+4. **Eliminar un Usuario**
+
+   ```bash
+   curl -X DELETE -H "Authorization: Bearer TU_TOKEN_ADMIN" http://localhost:8001/api/admin/users/ID_DEL_USUARIO
+   ```
+
+
 ```
-
-2. Instala las dependencias.
-```bash
-cd jwt-auth-api
-npm install
+Asegúrate de personalizar esta plantilla según las necesidades específicas de tu proyecto, incluyendo detalles como la información de contacto y las instrucciones adicionales que puedan ser relevantes. Además, recuerda mantener tu README actualizado a medida que el proyecto evoluciona.
 ```
-
-3. Crea un archivo `.env` en la raíz del proyecto y configura las variables de entorno necesarias (por ejemplo, la clave secreta, las credenciales de la base de datos, etc.).
-
-4. Ejecuta el servidor.
-```bash
-npm start
-```
-
-## 📦 Endpoints
-
-### 1. Registro de Usuario
-
-**Endpoint:** `/users`
-
-**Método:** POST
-
-**Cuerpo de la solicitud (Body):**
-```json
-{
-    "username": "nombre_de_usuario",
-    "password": "contraseña_del_usuario"
-}
-```
-
-**Respuesta:** Retorna el usuario registrado.
-
-### 2. Autenticación de Usuario
-
-**Endpoint:** `/users/login`
-
-**Método:** POST
-
-**Cuerpo de la solicitud (Body):**
-```json
-{
-    "username": "nombre_de_usuario",
-    "password": "contraseña_del_usuario"
-}
-```
-
-**Respuesta:** Si la autenticación es exitosa, retorna un token JWT.
-
-### 3. Obtener Información del Usuario Autenticado
-
-**Endpoint:** `/users/me`
-
-**Método:** GET
-
-**Headers:** Debes incluir el token JWT en los headers bajo la clave `authorization`.
-
-**Respuesta:** Retorna la información del usuario autenticado.
-
-### 4. Validar Conexión a la Base de Datos
-
-**Endpoint:** `/checkhealth`
-
-**Método:** GET
-
-**Respuesta:** Indica si la conexión a la base de datos es exitosa o no.
-
-## 🛠️ Herramientas de Desarrollo
-
-* [Node.js](https://nodejs.org/)
-* [Express.js](https://expressjs.com/)
-* [PostgreSQL](https://www.postgresql.org/)
-* [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
-* [bcrypt](https://www.npmjs.com/package/bcrypt)
-
-## 📌 Versionado
-
-Recomendamos que uses [SemVer](http://semver.org/) para el versionado.
-
-## 📄 Licencia
-
-Este proyecto está bajo la Licencia (Tu Licencia) - mira el archivo [LICENSE.md](LICENSE.md) para detalles.
-
----
-
-Puedes copiar y pegar el contenido anterior en tu archivo `README.md` y hacer las modificaciones necesarias para adaptarlo a tu proyecto. ¡Espero que te sea útil! Si tienes alguna otra pregunta o inquietud, no dudes en hacérmelo saber.

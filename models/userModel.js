@@ -46,6 +46,12 @@ class UserModel {
             return false;
         }
     }
+
+    static async getUserById(userId) {
+        const response = await pool.query('SELECT id, username, role FROM users WHERE id = $1', [userId]);
+        return response.rows[0];
+    }
+    
 }
 
 module.exports = UserModel;
