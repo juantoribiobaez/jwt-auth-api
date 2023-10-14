@@ -1,4 +1,3 @@
-```markdown
 # API de Usuarios y Administradores
 
 ![Estado del Proyecto](https://img.shields.io/badge/Estado-En%20Desarrollo-yellow)
