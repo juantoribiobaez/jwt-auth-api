@@ -17,12 +17,12 @@ Estas instrucciones te proporcionarán una copia del proyecto en funcionamiento 
 
 1. Clona el repositorio a tu máquina local.
 ```bash
-git clone [URL_DEL_REPO]
+git clone https://github.com/juantoribiobaez/jwt-auth-api.git
 ```
 
 2. Instala las dependencias.
 ```bash
-cd [NOMBRE_DEL_DIRECTORIO]
+cd jwt-auth-api
 npm install
 ```
 
