@@ -10,7 +10,11 @@ const UserModel = require('../models/userModel');
  */
 exports.getAllUsers = async (req, res) => {
     try {
-        const users = await AdminModel.getAllUsers();
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+        const offset = (page - 1) * limit;
+
+        const users = await AdminModel.getAllUsers(limit, offset);
         res.status(200).json(users);
     } catch (error) {
         res.status(500).json({ error: 'Error al obtener usuarios', detalles: error.message });

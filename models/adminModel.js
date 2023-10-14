@@ -5,8 +5,8 @@ class AdminModel {
      * Obtiene todos los usuarios.
      * @returns {Array} Lista de usuarios.
      */
-    static async getAllUsers() {
-        const response = await pool.query('SELECT id, username, role FROM users');
+    static async getAllUsers(limit = 10, offset = 0) {
+        const response = await pool.query('SELECT id, username, role FROM users LIMIT $1 OFFSET $2', [limit, offset]);
         return response.rows;
     }
 
