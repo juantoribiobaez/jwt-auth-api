@@ -7,10 +7,10 @@ const authorization = require('../middlewares/authorization');
 const router = express.Router();
 
 // Rutas solo para usuarios
-router.post('/users', userController.register);
-router.post('/users/login', userController.login);
+router.post('/register', userController.register);
+router.post('/login', userController.login);
 router.get('/checkhealth', userController.checkHealth);
-router.get('/users/me', verifyToken, authorization('admin', 'user'), userController.getUserInfo);
+router.get('/logincheck', verifyToken, authorization('admin', 'user'), userController.getUserInfo);
 
 // Rutas solo para administradores
 router.get('/admin/users', verifyToken, authorization('admin'), adminController.getAllUsers); // get all users
