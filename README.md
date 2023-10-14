@@ -11,7 +11,7 @@ Sigue estos pasos para configurar y ejecutar la API en tu entorno local:
 1. **Clonar el Repositorio:** Clona este repositorio en tu máquina local utilizando el siguiente comando:
 
    ```bash
-   git clone https://github.com/tuusuario/turepositorio.git
+   git clone https://github.com/juantoribiobaez/jwt-auth-api.git
    ```
 
 2. **Instalar Dependencias:** Navega al directorio del proyecto y ejecuta el siguiente comando para instalar las dependencias necesarias:
